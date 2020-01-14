@@ -1,0 +1,8 @@
+<input (click)="searchMovies(category)" placeholder="search movies" size="100">
+<h4> select Categories</h4>
+<div *ngIf="categories">
+    <span *ngFor="let category of categories">
+        <mat-checkbox (click)="checkCategoriesList(category)">{{category}}</mat-checkbox>
+        <br>
+    </span>
+</div>
