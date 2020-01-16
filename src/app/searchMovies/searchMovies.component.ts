@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { GetMovies } from "../getMovies.service";
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+import { MovieDataComponent } from "../showMovies/showMovies.component";
 
 @Component({
   selector: 'app-searchMovies',
@@ -9,23 +10,33 @@ import { FormGroup } from '@angular/forms';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor(private getMovies: GetMovies) { }
+  myForm: FormGroup;
+  categories: string[] = [];
+  controlArray: FormControl[] = [];
+  let showMovies = new MovieDataComponent();
 
-  @Output() checkCategories = new EventEmitter<string>();
-  @Output() movieName = new EventEmitter<string>();
-  @Input() categories: string[];
+constructor(private getMovies: GetMovies) {
+  this.getMovies.getCategories().subscribe(
+    category => {
+      this.categories = category;
+      this.categories.forEach(element =>
+        this.controlArray.push(new FormControl(false))
+      );
+      this.myForm.setControl('filters', new FormArray(this.controlArray));
+    }
+  );
+}
 
-  private fb: FormGroup = new FormGroup()
+ngOnInit() {
+  this.myForm = new FormGroup({
+    movieName: new FormControl(''),
+    filters: new FormArray(this.controlArray)
+  });
 
-  checkCategoriesList(value: string) {
-    this.checkCategories.emit(value);
-  }
-
-  searchMovies(movieName: string) {
-    this.movieName.emit(movieName);
-  }
-
-  ngOnInit() {
-  }
+  this.myForm.valueChanges.subscribe(() => {
+    this.showMovies.fetchMovies((this.myForm.get('movieName').value));
+    console.log(this.myForm.get('filters').value);
+  });
+}
 
 }

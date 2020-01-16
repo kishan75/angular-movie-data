@@ -8,8 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class GetMovies {
   private categoriesURL = 'https://movie-search-project.herokuapp.com';
 
-  getMovies(): Observable<string[]> {
-    return this.http.get<string[]>(this.categoriesURL).pipe(pluck('results'));
+  getMovies(movieName: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.categoriesURL}/movie/?q=${movieName}`).pipe(pluck('results'));
   }
 
   getCategories(): Observable<string[]> {

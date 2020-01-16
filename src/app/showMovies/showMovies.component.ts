@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { GetMovies } from "../getMovies.service";
 
 @Component({
   selector: 'app-movie-data',
@@ -7,11 +8,18 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MovieDataComponent implements OnInit {
 
-  @Input() movies: string[];
+  movies: string[];
 
-  constructor() { }
+  constructor(private getMovies: GetMovies) { }
+
+  fetchMovies(movieName: string) {
+    this.getMovies.getMovies(movieName).subscribe(function name(movie) {
+      console.log("data---", movie);
+    });
+  }
 
   ngOnInit() {
+    this.fetchMovies('');
   }
 
 }
