@@ -1,6 +1,10 @@
 <div *ngIf="movies">
-    <span *ngFor="let movie of movies">
-        {{movie}}
-        <br>
-    </span>
+    <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="800"
+        (scrolled)="onScroll()" [alwaysCallback]="true">
+        <span *ngFor="let movie of movies ">
+            <h2> {{movie.title}} </h2>
+            <h5>Year:{{movie.year}} , Rating :{{movie.rating}} Genre:{{movie.genre}}</h5>
+            
+        </span>
+    </div>
 </div>

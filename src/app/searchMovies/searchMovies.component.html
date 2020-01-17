@@ -1,8 +1,10 @@
 <form [formGroup]="myForm">
-    <input formControlName="movieName">
+    <input formControlName="movieName" size="155">
     <div formArrayName="filters">
-        <div *ngFor="let filter of myForm.controls.filters.controls; let i=index">
+        <span *ngFor="let filter of myForm.controls.filters.controls; let i=index">
             <input type="checkbox" [formControlName]="i" value="false">{{categories[i]}}
-        </div>
+        </span>
     </div>
 </form>
+<app-movie-data [movies]="movies" (pageChange)="onScroll($event)">
+</app-movie-data>

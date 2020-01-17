@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { GetMovies } from "../getMovies.service";
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-movie-data',
@@ -8,18 +7,17 @@ import { GetMovies } from "../getMovies.service";
 })
 export class MovieDataComponent implements OnInit {
 
-  movies: string[];
+  @Input() movies: string[];
+  @Output() pageChange = new EventEmitter<number>();
+  page: number = 0;
 
-  constructor(private getMovies: GetMovies) { }
-
-  fetchMovies(movieName: string) {
-    this.getMovies.getMovies(movieName).subscribe(function name(movie) {
-      console.log("data---", movie);
-    });
+  onScroll() {
+    this.pageChange.emit(++this.page);
   }
 
+  constructor() { }
+
   ngOnInit() {
-    this.fetchMovies('');
   }
 
 }

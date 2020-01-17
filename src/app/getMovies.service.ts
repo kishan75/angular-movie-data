@@ -9,7 +9,11 @@ export class GetMovies {
   private categoriesURL = 'https://movie-search-project.herokuapp.com';
 
   getMovies(movieName: string): Observable<string[]> {
-    return this.http.get<string[]>(`${this.categoriesURL}/movie/?q=${movieName}`).pipe(pluck('results'));
+    return this.http.get<string[]>(`${this.categoriesURL}/movie/?q=${movieName}`);
+  }
+
+  getMoviesNextPage(url: string): Observable<string[]> {
+    return this.http.get<string[]>(url);
   }
 
   getCategories(): Observable<string[]> {
